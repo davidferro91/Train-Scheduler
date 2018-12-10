@@ -1,0 +1,26 @@
+#header {
+    background-image: url(train.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+#inside-header {
+    background-image: linear-gradient(to right, black, #0099ff);
+    background-size: cover;
+    z-index: 2;
+    opacity:0.75;
+}
+
+#inside-wrapper {
+    opacity: 1.0;
+    z-index: 3;
+    font-family: 'Abril Fatface', cursive;
+    color: whitesmoke;
+    text-shadow: 5px 5px 5px black;
+}
+
+#form-header {
+    background:#0099ff;
+    color: whitesmoke;
+}
