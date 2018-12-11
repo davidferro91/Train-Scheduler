@@ -7,16 +7,16 @@ var config = {
     storageBucket: "train-scheduler-application.appspot.com",
     messagingSenderId: "813096377598"
   };
-  firebase.initializeApp(config);
+firebase.initializeApp(config);
 
-  var database = firebase.database();
-  var trainName = "";
-  var trainDestination = "";
-  var firstTime = "";
-  var trainFrequency = 0;
-  var timeFormat = "HH:mm";
+var database = firebase.database();
+var trainName = "";
+var trainDestination = "";
+var firstTime = "";
+var trainFrequency = 0;
+var timeFormat = "HH:mm";
 
-  $("#submit-button").on("click", function(event) {
+$("#submit-button").on("click", function(event) {
     event.preventDefault();
     trainName = $("#train-name").val().trim();
     trainDestination = $("#destination").val().trim();
@@ -29,9 +29,16 @@ var config = {
         initialTime: firstTime,
         frequency: trainFrequency,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
-      });
-  });
+    });
+});
+// Generating data on initial page load.
+generateData();
+// Regenerating the data every 30 seconds.
+setInterval(generateData, 30000);
 
+function generateData () {
+  console.log("function running");
+  $("#train-info").empty();
   database.ref().orderByChild("dateAdded").limitToLast(10).on("child_added", function(snapshot) {
     var dataName;
     var dataDestination;
@@ -41,6 +48,8 @@ var config = {
     var minutesAway = 0;
 
     var trainRow = $("<tr>");
+
+    //Adding the data from Firebase to the columns.
     var nameCol = $("<td>");
     dataName = snapshot.val().name;
     nameCol.text(dataName);
@@ -52,18 +61,22 @@ var config = {
     freqCol.text(dataFrequency);
     var nextCol = $("<td>");
     dataTime = snapshot.val().initialTime;
+    //Doing the time calculations using moment.js.
     var dataTimeConverted = moment(dataTime, "HH:mm").subtract(1, "weeks");
     var differenceInTime = moment().diff(moment(dataTimeConverted), "minutes");
     var timeRemainder = differenceInTime % dataFrequency;
     minutesAway = dataFrequency - timeRemainder;
     var nextArrival = moment().add(minutesAway, "minutes");
-    nextCol.text(moment(nextArrival).format("HH:mm"));
+    nextCol.text(moment(nextArrival).format("LT"));
     var minCol = $("<td>");
     minCol.text(minutesAway);
+
+    //Appending the columns to the table.
     trainRow.append(nameCol);
     trainRow.append(destCol);
     trainRow.append(freqCol);
     trainRow.append(nextCol);
     trainRow.append(minCol);
     $("#train-info").append(trainRow);
-});
+  });
+}
