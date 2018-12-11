@@ -51,11 +51,14 @@ var config = {
     dataFrequency = snapshot.val().frequency;
     freqCol.text(dataFrequency);
     var nextCol = $("<td>");
-
-    
-    nextCol.text(nextArrival);
+    dataTime = snapshot.val().initialTime;
+    var dataTimeConverted = moment(dataTime, "HH:mm").subtract(1, "weeks");
+    var differenceInTime = moment().diff(moment(dataTimeConverted), "minutes");
+    var timeRemainder = differenceInTime % dataFrequency;
+    minutesAway = dataFrequency - timeRemainder;
+    var nextArrival = moment().add(minutesAway, "minutes");
+    nextCol.text(moment(nextArrival).format("HH:mm"));
     var minCol = $("<td>");
-    
     minCol.text(minutesAway);
     trainRow.append(nameCol);
     trainRow.append(destCol);
