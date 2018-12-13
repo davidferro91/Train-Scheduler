@@ -31,6 +31,7 @@ $("#submit-button").on("click", function(event) {
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     });
 
+    $("#train-info").empty();
     $("#train-name").val("");
     $("#destination").val("");
     $("#first-time").val("");
@@ -44,7 +45,7 @@ setInterval(generateData, 1000);
 function generateData () {
   console.log("function running");
   $("#train-info").empty();
-  database.ref().orderByChild("dateAdded").limitToLast(10).on("child_added", function(snapshot) {
+  database.ref().orderByChild("dateAdded").limitToLast(100).on("child_added", function(snapshot) {
     var dataName;
     var dataDestination;
     var dataTime;
