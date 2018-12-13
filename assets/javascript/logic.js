@@ -30,11 +30,16 @@ $("#submit-button").on("click", function(event) {
         frequency: trainFrequency,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     });
+
+    $("#train-name").val("");
+    $("#destination").val("");
+    $("#first-time").val("");
+    $("#frequency").val("");
 });
 // Generating data on initial page load.
-generateData();
-// Regenerating the data every 30 seconds.
-setInterval(generateData, 30000);
+
+// Regenerating the data every 1 seconds.
+setInterval(generateData, 1000);
 
 function generateData () {
   console.log("function running");
