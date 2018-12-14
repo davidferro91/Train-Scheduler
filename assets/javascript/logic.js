@@ -19,7 +19,7 @@ var timeFormat = "HH:mm";
 function generateData () {
   console.log("function running");
   $("#train-info").empty();
-  database.ref().orderByChild("dateAdded").limitToLast(100).on("child_added", function(snapshot) {
+  database.ref().orderByChild("dateAdded").startAt(1).on("child_added", function(snapshot) {
     var dataName;
     var dataDestination;
     var dataTime;
