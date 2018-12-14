@@ -16,32 +16,6 @@ var firstTime = "";
 var trainFrequency = 0;
 var timeFormat = "HH:mm";
 
-$("#submit-button").on("click", function(event) {
-    event.preventDefault();
-    trainName = $("#train-name").val().trim();
-    trainDestination = $("#destination").val().trim();
-    firstTime = $("#first-time").val().trim();
-    trainFrequency = $("#frequency").val().trim();
-
-    database.ref().push({
-        name: trainName,
-        destination: trainDestination,
-        initialTime: firstTime,
-        frequency: trainFrequency,
-        dateAdded: firebase.database.ServerValue.TIMESTAMP
-    });
-
-    $("#train-info").empty();
-    $("#train-name").val("");
-    $("#destination").val("");
-    $("#first-time").val("");
-    $("#frequency").val("");
-});
-// Generating data on initial page load.
-
-// Regenerating the data every 1 seconds.
-setInterval(generateData, 1000);
-
 function generateData () {
   console.log("function running");
   $("#train-info").empty();
@@ -86,3 +60,30 @@ function generateData () {
     $("#train-info").append(trainRow);
   });
 }
+
+$("#submit-button").on("click", function(event) {
+    event.preventDefault();
+    trainName = $("#train-name").val().trim();
+    trainDestination = $("#destination").val().trim();
+    firstTime = $("#first-time").val().trim();
+    trainFrequency = $("#frequency").val().trim();
+    if (trainName.length > 0 && trainDestination.length > 0 && firstTime.length > 0 && trainFrequency.length > 0) {
+      database.ref().push({
+        name: trainName,
+        destination: trainDestination,
+        initialTime: firstTime,
+        frequency: trainFrequency,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+      });
+
+      generateData();
+      $("#train-name").val("");
+      $("#destination").val("");
+      $("#first-time").val("");
+      $("#frequency").val("");
+    }
+});
+// Generating data on initial page load.
+generateData();
+// Regenerating the data every 30 seconds.
+setInterval(generateData, 30000);
