@@ -83,6 +83,7 @@ $("#submit-button").on("click", function(event) {
       $("#frequency").val("");
     }
 });
+
 // Generating data on initial page load.
 generateData();
 // Regenerating the data every 30 seconds.
