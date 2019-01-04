@@ -1,4 +1,8 @@
 # Train-Scheduler
+
+https://davidferro91.github.io/Train-Scheduler/
+
+## Description
 Displaying a Train Schedule via Firebase
 
 This is a working example of how data can be stored on Firebase to be displayed across multiple browsers.  The idea behind it is that there is a schedule of trains that the user can check at any time, and it will tell them when the next train will arrive and how many minutes away it is.
